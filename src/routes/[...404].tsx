@@ -1,31 +1,13 @@
-import { A } from "solid-start";
+import { A, Title } from "solid-start";
 
 export default function NotFound() {
   return (
-    <main class="text-center mx-auto text-gray-700 p-4">
-      <h1 class="max-6-xs text-6xl text-sky-700 font-thin uppercase my-16">
-        Not Found
-      </h1>
-      <p class="mt-8">
-        Visit{" "}
-        <a
-          href="https://solidjs.com"
-          target="_blank"
-          class="text-sky-600 hover:underline"
-        >
-          solidjs.com
-        </a>{" "}
-        to learn how to build Solid apps.
-      </p>
-      <p class="my-4">
-        <A href="/" class="text-sky-600 hover:underline">
-          Home
-        </A>
-        {" - "}
-        <A href="/about" class="text-sky-600 hover:underline">
-          About Page
-        </A>
-      </p>
+    <main class="text-center gap-6 flex flex-col justify-self-center">
+      <Title>找不到页面 - 冰轩's blog</Title>
+      <h1 class=" text-6xl font-medium text-main">找不到页面</h1>
+      <div class="flex gap-4 text-center justify-center">
+        <span>错误码：404 </span><A href="/" class="underline">回到主页</A>
+      </div>
     </main>
   );
 }
