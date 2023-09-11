@@ -38,7 +38,7 @@ function CategoryList(props: { categories: string[] }) {
     <div class={`
         ${!focus() && "opacity-0 pointer-events-none"} 
         group-hover:opacity-100 group-hover:pointer-events-auto 
-        absolute left-1/2 -translate-x-1/2 
+        absolute left-1/2 -translate-x-1/2 z-10
         flex-col pt-4 bg-transparent rounded transition-all
         `}>
       <ul class="p-2 bg-container rounded">
