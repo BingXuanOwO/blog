@@ -1,4 +1,5 @@
-import { Title, redirect, useParams } from "solid-start";
+import { useParams } from "solid-start";
+import { HeadingTitle } from "~/components/HeadingTitle";
 
 export default function Post() {
   const params = useParams();
@@ -9,10 +10,7 @@ export default function Post() {
 
   return (
     <main class="gap-6 flex flex-col">
-      <Title>{title} - 冰轩's blog</Title>
-      <h1 class="text-6xl text-main font-medium">
-        {title}
-      </h1>
+      <HeadingTitle title={title} />
       <div class="opacity-60 text-ellipsis overflow-hidden gap-4 flex">
         <span>{dateString}</span>
         <span>{category}</span>

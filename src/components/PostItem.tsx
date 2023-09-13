@@ -1,18 +1,20 @@
-import { A } from "@solidjs/router";
+import { A } from "solid-start";
+import { parseDateToString } from "~/utils/date";
 
 export default function PostItem(props: {
   title: string,
-  date: string,
+  date: Date,
   category?: string,
   content: string,
-  path: string
+  slug: string,
+  class?: string
 }) {
   return (
-    <A href={`/posts/${props.path}`} class="flex flex-col gap-2 hover:text-white">
+    <A href={`/posts/${props.slug}`} class={`flex flex-col gap-2 hover:text-white ${props.class}`}>
       <h1 class="text-4xl font-medium">{props.title}</h1>
 
-      <div class="text-xs opacity-60 text-ellipsis overflow-hidden gap-4 flex">
-        <span>{props.date}</span>
+      <div class="text-xs opacity-60 text-ellipsis overflow-hidden gap-3 flex">
+        <span>{parseDateToString(props.date)}</span>
         {props.category && <span>{props.category}</span>}
       </div>
 

@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import { A, useLocation } from "solid-start";
+import { categories } from "~/store/categories";
 
 export default function TopAppBar() {
   return (
@@ -19,7 +20,7 @@ export default function TopAppBar() {
           <li class="px-4 py-2 rounded hover:bg-hover-overlay transition-all">
             分类
             {/* hover on category button */}
-            <CategoryList categories={["默认分类", "虚拟机", "简谈", "前端"]} />
+            <CategoryList categories={categories()} />
           </li>
         </div>
         <A href="/archive" class="hover:text-white">
@@ -32,7 +33,7 @@ export default function TopAppBar() {
   );
 }
 
-function CategoryList(props: { categories: string[] }) {
+function CategoryList(props: { categories: Set<string> }) {
   const [focus, setFocus] = createSignal(false);
   return (
     <div class={`
@@ -42,9 +43,9 @@ function CategoryList(props: { categories: string[] }) {
         flex-col pt-4 bg-transparent rounded transition-all
         `}>
       <ul class="p-2 bg-container rounded">
-        {props.categories.map((value) =>
+        {[...props.categories].map((value) =>
           <A class="whitespace-nowrap p-4 py-3 block hover:bg-hover-overlay transition-all rounded"
-            href={`/category/${value}`} onclick={(el)=>{setFocus(false)}} 
+            href={`/category/${value}/`} onclick={(el)=>{setFocus(false)}} 
             onblur={()=>setFocus(false)} onfocus={()=>{setFocus(true)}}>{value}</A>
         )}
       </ul>

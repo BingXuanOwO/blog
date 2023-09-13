@@ -15,6 +15,9 @@ import {
 } from "solid-start";
 import "./root.css";
 import TopAppBar from "./components/TopAppBar";
+import { init } from "./init";
+
+init()
 
 export default function Root() {
   return (
