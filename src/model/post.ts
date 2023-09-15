@@ -1,6 +1,6 @@
-type post = {
+type postInfo = {
     title: string,
-    date: Date,
+    date: number,
     category: string,
     slug: string
 }

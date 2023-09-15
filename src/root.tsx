@@ -1,8 +1,6 @@
 // @refresh reload
-import { Suspense } from "solid-js";
+import { onMount, Suspense } from "solid-js";
 import {
-  useLocation,
-  A,
   Body,
   ErrorBoundary,
   FileRoutes,
@@ -15,9 +13,6 @@ import {
 } from "solid-start";
 import "./root.css";
 import TopAppBar from "./components/TopAppBar";
-import { init } from "./init";
-
-init()
 
 export default function Root() {
   return (

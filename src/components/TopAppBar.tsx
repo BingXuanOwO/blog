@@ -1,8 +1,24 @@
-import { createSignal } from "solid-js";
-import { A, useLocation } from "solid-start";
-import { categories } from "~/store/categories";
+import { createSignal, onMount } from "solid-js";
+import { A, useLocation, useRouteData } from "solid-start";
+import server$ from "solid-start/server";
+import { getCategories } from "~/data/categories";
 
 export default function TopAppBar() {
+  const [categories, setCategories] = createSignal<string[]>([])
+
+  onMount(async () => {
+    const fetchedCategories = server$(() => {
+      return getCategories()
+    })
+
+    console.log("fetched Categories")
+    console.log([...await fetchedCategories()])
+
+    setCategories(
+      await fetchedCategories()
+    )
+  })
+
   return (
     <nav class="w-full bg-background flex h-12 px-2">
       {/* left */}
@@ -33,7 +49,7 @@ export default function TopAppBar() {
   );
 }
 
-function CategoryList(props: { categories: Set<string> }) {
+function CategoryList(props: { categories: string[] }) {
   const [focus, setFocus] = createSignal(false);
   return (
     <div class={`
@@ -45,8 +61,12 @@ function CategoryList(props: { categories: Set<string> }) {
       <ul class="p-2 bg-container rounded">
         {[...props.categories].map((value) =>
           <A class="whitespace-nowrap p-4 py-3 block hover:bg-hover-overlay transition-all rounded"
-            href={`/category/${value}/`} onclick={(el)=>{setFocus(false)}} 
-            onblur={()=>setFocus(false)} onfocus={()=>{setFocus(true)}}>{value}</A>
+            href={`/category/${value}/`}
+            onclick={(el) => { setFocus(false) }}
+            onblur={() => setFocus(false)}
+            onfocus={() => { setFocus(true) }}>
+            {value}
+          </A>
         )}
       </ul>
     </div>

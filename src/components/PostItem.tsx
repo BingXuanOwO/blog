@@ -2,11 +2,11 @@ import { A } from "solid-start";
 import { parseDateToString } from "~/utils/date";
 
 export default function PostItem(props: {
-  title: string,
-  date: Date,
+  title?: string,
+  date?: Date,
   category?: string,
-  content: string,
-  slug: string,
+  content?: string,
+  slug?: string,
   class?: string
 }) {
   return (
@@ -14,7 +14,7 @@ export default function PostItem(props: {
       <h1 class="text-4xl font-medium">{props.title}</h1>
 
       <div class="text-xs opacity-60 text-ellipsis overflow-hidden gap-3 flex">
-        <span>{parseDateToString(props.date)}</span>
+        <span>{props.date && parseDateToString(props.date)}</span>
         {props.category && <span>{props.category}</span>}
       </div>
 

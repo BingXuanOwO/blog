@@ -1,35 +1,49 @@
 import { createEffect, createSignal } from "solid-js";
-import { useParams, useSearchParams } from "solid-start";
-import { Button } from "~/components/Button";
+import { RouteDataArgs, useParams, useRouteData, useSearchParams } from "solid-start";
+import { createServerData$ } from "solid-start/server";
 import { HeadingTitle } from "~/components/HeadingTitle";
+import { PaginationButtons } from "~/components/PaginationButtons";
 import PostItem from "~/components/PostItem";
-import { postList } from "~/store/postList";
+import { getPostsFromCategory, getPostsFromCategoryByPage, getPostsPaginationCount, getPostsPaginationCountFromCategory } from "~/data/posts";
+
+export function routeData({ params, location }: RouteDataArgs) {
+  const posts = createServerData$<postInfo[], [name: string, page: number]>(
+    ([name, page]) => {
+      const posts = getPostsFromCategoryByPage(name, page)
+      console.log(page)
+      return posts
+    },
+    {
+      key: () => [
+        decodeURI(params.name),
+        parseInt(location.query.page ?? 1)
+      ]
+    }
+  );
+
+  const paginationCount = createServerData$<number, string>(
+    (name) => {
+      const posts = getPostsPaginationCountFromCategory(name)
+      return posts
+    },
+    { key: () => decodeURI(params.name), }
+  );
+
+  return { posts, paginationCount }
+}
 
 export default function Category() {
-  const params = useParams()
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { posts, paginationCount } = useRouteData<typeof routeData>();
 
-  const [filtedList, setFiltedList] = createSignal(postList().filter(
-    e => e.category == decodeURI(params.name)
-  ))
+  const params = useParams()
+  const [searchParams] = useSearchParams();
 
   const [page, setPage] = createSignal(
     parseInt(searchParams.page) > 1 ? parseInt(searchParams.page) : 1
   )
-  const [pageTotal, setPageTotal] = createSignal(
-    Math.ceil(filtedList().length / 10)
-  )
 
   createEffect(() => {
     setPage(parseInt(searchParams.page) > 1 ? parseInt(searchParams.page) : 1)
-  })
-
-  createEffect(() => {
-    setFiltedList(postList().filter(
-      e => e.category == decodeURI(params.name)
-    ))
-
-    setPageTotal(Math.ceil(filtedList().length / 10))
   })
 
   return (
@@ -39,32 +53,14 @@ export default function Category() {
         secondaryTitle="中的文章" />
       <ul class="flex flex-col gap-8">
         {
-          filtedList()
-            .slice((page() - 1) * 10, page() * 10)
-            .map(post =>
+          posts()
+            ?.map(post =>
               <PostItem title={post.title} slug={post.slug}
-                date={post.date} content="content" />
+                date={new Date(post.date ?? 0)} content="content" />
             )
         }
       </ul>
-      <div class="flex justify-between my-4">
-        <Button
-          disabled={page() <= 1}
-          onClick={() => {
-            setSearchParams({ page: page() - 1 })
-          }}
-        >上一页</Button>
-
-        <span>{page()}/{pageTotal()}</span>
-
-        <Button
-          primary
-          disabled={page() >= pageTotal()}
-          onClick={() => {
-            setSearchParams({ page: page() + 1 })
-          }}
-        >下一页</Button>
-      </div>
+      <PaginationButtons pageCount={paginationCount() ?? 0} />
     </main>
   )
 }
