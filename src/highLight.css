@@ -1,0 +1,27 @@
+.hljs-built_in {
+  color: #63daff;
+}
+
+.hljs-string {
+  color: #71e660;
+}
+
+.hljs-number {
+  color: #febca2;
+}
+
+.hljs-keyword {
+  color: #f5b2ff;
+}
+
+.hljs-title {
+  color: #38e8c7;
+}
+
+.hljs-type {
+  color: #f7fe28;
+}
+
+.hljs-meta {
+  font-style: italic;
+}

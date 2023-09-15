@@ -1,5 +1,7 @@
+import hljs from "highlight.js";
 import "~/highLight.css"
 import { marked } from "marked";
+import { onMount } from "solid-js";
 import { ErrorBoundary, RouteDataArgs, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import { getPost } from "~/data/post";
@@ -63,8 +65,19 @@ export default function Post() {
 }
 
 function MarkdownParagraph(props: { children?: string }) {
+  let ref: HTMLElement
+
+  // highlight code blocks with highlight.js
+  onMount(() => {
+    if (ref != void 0) {
+      ref.querySelectorAll("pre code").forEach(el => {
+        if (el instanceof HTMLElement) hljs.highlightElement(el);
+      })
+    }
+  })
+
   return (
-    <article class="flex gap-3 flex-col
+    <article ref={(el) => ref = el} class="flex gap-3 flex-col
         [&_h1]:text-5xl [&_h1]:font-medium
         [&_h2]:text-4xl [&_h2]:font-medium
         [&_h3]:text-3xl [&_h3]:font-medium
