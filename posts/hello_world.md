@@ -11,20 +11,12 @@ Adding markdown files with `title`, `date` and `category` front matter to add po
 
 > quote
 
-![image](https://s.cn.bing.net/th?id=OHR.GlenariffForest_ZH-CN7874768337_1920x1080.webp)
-
-![image](https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png)
-
-```c++
-#include <iostream>
+```c
+#include <stdio.h>
 
 int main(){
-    println("Hello world!");
+    printf("Hello world!");
     return 0;
-}
-
-int println(string str){
-    std::cout << str << std::endl;
 }
 ```
 
