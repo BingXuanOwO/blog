@@ -90,8 +90,9 @@ function MarkdownParagraph(props: { children?: string }) {
 
         [&_code]:bg-container [&_code]:px-2 [&_code]:rounded
 
-        [&_pre_code]:bg-transparent [&_pre_code]:px-0
-        [&_pre]:bg-container [&_pre]:p-4 [&_pre]:rounded
+        [&_pre_code]:bg-transparent [&_pre_code]:px-0 [&_pre]:overflow-auto
+        [&_pre]:bg-container [&_pre]:p-2 [&_pre]:rounded  [&_pre]:border-8 
+        [&_pre]:border-container
 
         [&_blockquote]:border-l-4 [&_blockquote]:border-l-main
         [&_blockquote]:pl-6 [&_blockquote]:bg-container
