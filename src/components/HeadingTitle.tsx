@@ -10,10 +10,10 @@ export function HeadingTitle(props: {
   return (
     <>
       <Title>{props.title}{props.secondaryTitle} - {props.page && `第${props.page}页 - `}冰轩's blog</Title>
-      <h1 class="text-6xl font-medium ">
+      <h1>
         <span class="text-main">{props.title}</span>
         {props.secondaryTitle}
-        </h1>
+      </h1>
     </>
   )
 }

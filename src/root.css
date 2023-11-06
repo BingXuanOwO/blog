@@ -2,11 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-code,
-kbd,
-samp,
-pre {
-  font-family: monospace, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New";
-  font-size: 1em;
+@layer base {
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: monospace, ui-monospace, SFMono-Regular, Menlo, Monaco,
+      Consolas, "Liberation Mono", "Courier New";
+    @apply text-base;
+  }
+
+  h1 {
+    @apply text-6xl;
+  }
+
+  h2 {
+    @apply text-4xl;
+  }
+
+  h3 {
+    @apply text-3xl;
+  }
+
+  h4 {
+    @apply text-2xl;
+  }
+
+  h5 {
+    @apply text-xl;
+  }
+
+  h6 {
+    @apply text-lg;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-medium;
+  }
+  
+  article {
+    code {
+      @apply bg-container;
+      @apply px-2;
+      @apply rounded;
+    }
+    
+    image {
+      @apply mx-auto;
+      @apply rounded;
+    }
+    
+    ul {
+      @apply list-inside;
+      @apply list-disc;
+    }
+    
+    ol {
+      @apply list-inside;
+      @apply list-decimal;
+    }
+    
+    ul > li {
+      @apply marker:text-main;
+      @apply ml-2;
+    }
+    
+    ol > li {
+      @apply ml-2;
+    }
+    
+    blockquote {
+      @apply bg-container;
+      @apply border-l-4;
+      @apply border-l-main;
+      @apply pl-6;
+      @apply p-4;
+    }
+    
+    
+    pre {
+      @apply bg-container;
+      @apply border-l-4;
+      @apply border-l-main;
+      @apply pl-6;
+      @apply p-2;
+      @apply rounded;
+      @apply border-8;
+      @apply border-container;
+      @apply overflow-auto;
+    }
+    
+    pre>code {
+      @apply bg-transparent;
+      @apply px-0;
+    }
+  }
 }
+
+

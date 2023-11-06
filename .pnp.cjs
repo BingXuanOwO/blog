@@ -36,6 +36,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["highlight.js", "npm:11.8.0"],\
             ["marked", "npm:9.0.0"],\
             ["postcss", "npm:8.4.29"],\
+            ["postcss-nesting", "virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:12.0.1"],\
             ["solid-js", "npm:1.7.11"],\
             ["solid-start", "virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:0.3.5"],\
             ["solid-start-node", "virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:0.3.5"],\
@@ -2570,6 +2571,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@csstools/selector-specificity", [\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/@csstools-selector-specificity-npm-3.0.0-c3934051c2-4a2dfe6999.zip/node_modules/@csstools/selector-specificity/",\
+          "packageDependencies": [\
+            ["@csstools/selector-specificity", "npm:3.0.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:d32b28a10384497aef1c5a279ac3dd7c014be90130b2ed3e574dbf5ef9b31e01d1a092bb37eaee0376dbb564ab06a7c57206c6a7432da789a5858806e32c07a1#npm:3.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/@csstools-selector-specificity-virtual-83794c9746/0/cache/@csstools-selector-specificity-npm-3.0.0-c3934051c2-4a2dfe6999.zip/node_modules/@csstools/selector-specificity/",\
+          "packageDependencies": [\
+            ["@csstools/selector-specificity", "virtual:d32b28a10384497aef1c5a279ac3dd7c014be90130b2ed3e574dbf5ef9b31e01d1a092bb37eaee0376dbb564ab06a7c57206c6a7432da789a5858806e32c07a1#npm:3.0.0"],\
+            ["@types/postcss-selector-parser", null],\
+            ["postcss-selector-parser", "npm:6.0.13"]\
+          ],\
+          "packagePeers": [\
+            "@types/postcss-selector-parser",\
+            "postcss-selector-parser"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@esbuild/android-arm", [\
         ["npm:0.17.19", {\
           "packageLocation": "./.yarn/unplugged/@esbuild-android-arm-npm-0.17.19-3aea6162a7/node_modules/@esbuild/android-arm/",\
@@ -3778,6 +3801,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["highlight.js", "npm:11.8.0"],\
             ["marked", "npm:9.0.0"],\
             ["postcss", "npm:8.4.29"],\
+            ["postcss-nesting", "virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:12.0.1"],\
             ["solid-js", "npm:1.7.11"],\
             ["solid-start", "virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:0.3.5"],\
             ["solid-start-node", "virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:0.3.5"],\
@@ -6122,6 +6146,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/postcss-nested-virtual-9c5161338c/0/cache/postcss-nested-npm-6.0.1-5cdc427fe8-7ddb0364cd.zip/node_modules/postcss-nested/",\
           "packageDependencies": [\
             ["postcss-nested", "virtual:1cb35d024e1bb70df17d582b2dc13653cf6b904d97112d81ada3a3f6e8a30df43cee4c1934cef18cd04a6397322f81ba87bbc4a18d88e2c636b19c04d0f9f6ba#npm:6.0.1"],\
+            ["@types/postcss", null],\
+            ["postcss", "npm:8.4.29"],\
+            ["postcss-selector-parser", "npm:6.0.13"]\
+          ],\
+          "packagePeers": [\
+            "@types/postcss",\
+            "postcss"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["postcss-nesting", [\
+        ["npm:12.0.1", {\
+          "packageLocation": "./.yarn/cache/postcss-nesting-npm-12.0.1-0ef3a4ed48-fa6157fbdc.zip/node_modules/postcss-nesting/",\
+          "packageDependencies": [\
+            ["postcss-nesting", "npm:12.0.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:12.0.1", {\
+          "packageLocation": "./.yarn/__virtual__/postcss-nesting-virtual-d32b28a103/0/cache/postcss-nesting-npm-12.0.1-0ef3a4ed48-fa6157fbdc.zip/node_modules/postcss-nesting/",\
+          "packageDependencies": [\
+            ["postcss-nesting", "virtual:c6dcce817fa225290e033ab3df9d032741dc228bb28c9cbb4719875ef6095c1c8f4a1ecb6d1cce6f1119ad7c9bb93c31bc307a4e235fab5627d039ca42e55b65#npm:12.0.1"],\
+            ["@csstools/selector-specificity", "virtual:d32b28a10384497aef1c5a279ac3dd7c014be90130b2ed3e574dbf5ef9b31e01d1a092bb37eaee0376dbb564ab06a7c57206c6a7432da789a5858806e32c07a1#npm:3.0.0"],\
             ["@types/postcss", null],\
             ["postcss", "npm:8.4.29"],\
             ["postcss-selector-parser", "npm:6.0.13"]\

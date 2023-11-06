@@ -11,14 +11,14 @@ export default function PostItem(props: {
 }) {
   return (
     <A href={`/posts/${props.slug}`} class={`flex flex-col gap-2 hover:text-white ${props.class}`}>
-      <h1 class="text-4xl font-medium">{props.title}</h1>
+      <h2>{props.title}</h2>
 
       <div class="text-xs opacity-60 text-ellipsis overflow-hidden gap-3 flex">
         <span>{props.date && parseDateToString(props.date)}</span>
         {props.category && <span>{props.category}</span>}
       </div>
 
-      <span class=" w-full overflow-clip text-ellipsis">{props.content}</span>
+      <span class="w-full overflow-clip text-ellipsis">{props.content}</span>
     </A>
   )
 }

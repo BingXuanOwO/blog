@@ -77,29 +77,7 @@ function MarkdownParagraph(props: { children?: string }) {
   })
 
   return (
-    <article ref={(el) => ref = el} class="flex gap-3 flex-col
-        [&_h1]:text-5xl [&_h1]:font-medium
-        [&_h2]:text-4xl [&_h2]:font-medium
-        [&_h3]:text-3xl [&_h3]:font-medium
-        [&_h4]:text-2xl [&_h4]:font-medium
-        [&_h5]:text-xl [&_h5]:font-medium
-        [&_h6]:text-lg [&_h6]:font-medium
-
-        [&_ul]:list-inside [&_ul]:list-disc [&_ul_li]:marker:text-main [&_ul_li]:ml-2
-        [&_ol]:list-inside [&_ol]:list-decimal [&_ol_li]:ml-2
-
-        [&_code]:bg-container [&_code]:px-2 [&_code]:rounded
-
-        [&_pre_code]:bg-transparent [&_pre_code]:px-0 [&_pre]:overflow-auto
-        [&_pre]:bg-container [&_pre]:p-2 [&_pre]:rounded  [&_pre]:border-8 
-        [&_pre]:border-container
-
-        [&_blockquote]:border-l-4 [&_blockquote]:border-l-main
-        [&_blockquote]:pl-6 [&_blockquote]:bg-container
-        [&_blockquote]:p-4
-
-        [&_img]:rounded [&_img]:mx-auto
-        "
+    <article ref={(el) => ref = el} class="flex gap-3 flex-col"
       innerHTML={marked.parse(props.children ?? "")} />
   )
 }

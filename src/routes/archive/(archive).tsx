@@ -31,21 +31,20 @@ export default function Archive() {
 function WTFElement(props: { year: number, availableMonths: number[] }) {
   return (
     <div class="flex flex-col gap-6 w-max max-sm:w-full">
-      <h2 class="text-4xl font-medium">{props.year}</h2>
+      <h2>{props.year}</h2>
       <div class="grid grid-cols-4 gap-3 w-max
         max-sm:w-full max-sm:gap-6">
         {[...Array(12).keys()].map((month) => {
           const active = new Set(props.availableMonths).has(month + 1)
           return active ?
-            <A class="w-10 cursor-pointer text-3xl text-center 
-              max-sm:w-full max-sm:leading-loose"
-              href={
+            <A href={
                 `/archive/${props.year}/${month + 1}`
               }>
-              <h3> {month + 1} </h3>
+              <h3 class="w-10 cursor-pointer text-center 
+              max-sm:w-full max-sm:leading-loose"> {month + 1} </h3>
             </A>
             :
-            <h3 class="text-3xl w-10 text-center opacity-60 
+            <h3 class="w-10 text-center opacity-60 
               cursor-not-allowed font-extralight
               max-sm:leading-loose max-sm:w-full" >
               {month + 1}
