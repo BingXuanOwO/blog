@@ -1,27 +1,29 @@
-.hljs-built_in {
-  color: #63daff;
-}
-
 .hljs-string {
-  color: #71e660;
+  color: #e9d957;
 }
 
 .hljs-number {
-  color: #febca2;
+  color: #ff8b5e;
 }
 
 .hljs-keyword {
-  color: #f5b2ff;
+  color: #87b6ff;
 }
 
-.hljs-title {
-  color: #38e8c7;
+.hljs-title,
+.hljs-built_in {
+  color: #4fccf2;
 }
 
 .hljs-type {
-  color: #f7fe28;
+  color: #21e5b7;
 }
 
 .hljs-meta {
   font-style: italic;
+}
+
+.hljs-comment {
+  font-style: italic;
+  color: #49c91b;
 }
