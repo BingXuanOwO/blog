@@ -49,11 +49,11 @@ export default function Home() {
   return (
     <main>
       <Title>冰轩's blog</Title>
-      <ul class="flex flex-col gap-12">
+      <div class="flex flex-col gap-12">
         {posts()?.map((post) => (
           <PostItem postInfo={post} />
         ))}
-      </ul>
+      </div>
       {!isBottom() && (
         <div class="pt-12 pb-4 w-full text-center">
           <Button

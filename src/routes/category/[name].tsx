@@ -51,14 +51,14 @@ export default function Category() {
       <HeadingTitle page={page()}
         title={decodeURI(params.name)}
         secondaryTitle="中的文章" />
-      <ul class="flex flex-col gap-8">
+      <div class="flex flex-col gap-8">
         {
           posts()
             ?.map(post =>
               <PostItem postInfo={post} hideCategory/>
             )
         }
-      </ul>
+      </div>
       <PaginationButtons pageCount={paginationCount() ?? 0} />
     </main>
   )
