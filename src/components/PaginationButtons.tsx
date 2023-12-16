@@ -11,6 +11,7 @@ export function PaginationButtons(props: { pageCount: number }) {
 
   createEffect(() => {
     setPage(parseInt(searchParams.page) > 1 ? parseInt(searchParams.page) : 1)
+    window.scrollTo(0,0)
   })
 
   return (
