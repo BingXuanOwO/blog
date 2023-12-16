@@ -21,6 +21,7 @@ export default function Root() {
         <Title>冰轩's blog</Title>
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta name="theme-color" content="#292929"/>
       </Head>
       <Body class="bg-background text-neutral-200 flex-col">
         <Suspense>
