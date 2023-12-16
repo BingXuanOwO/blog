@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import matter from "gray-matter"
+import matter, { GrayMatterFile } from "gray-matter"
 
 const postStoragePath = path.join(process.cwd(), "posts")
 
@@ -15,6 +15,8 @@ export function getPost(slug: string): { info: postInfo, content: string } {
     slug + ".md"
   )
 
+  //console.log("content: " + getPostPlainTextContent(slug))
+
   const exists = fs.existsSync(filePath)
   if (!exists) {
     throw (Error("Not Found", {}))
@@ -25,11 +27,20 @@ export function getPost(slug: string): { info: postInfo, content: string } {
 
   return {
     info: {
-      slug: slug,
-      title: parsedMatter.data["title"],
-      date: parsedMatter.data["date"],
-      category: parsedMatter.data["category"],
+      ...readInfoFromMatter(parsedMatter),
+      slug: slug
     },
     content: parsedMatter.content
+  }
+}
+
+export function readInfoFromMatter(matter: GrayMatterFile<Buffer | string>): postInfo {
+  const plainContent = matter.content.replace(/<img.*<\/img>/g,"").replace(/<\/?.+?>/g, "")
+
+  return {
+    title: matter.data["title"],
+    date: parseInt(matter.data["date"]),
+    category: matter.data["category"],
+    preview: plainContent.length > 100 ? plainContent.slice(0,100) + '...' : plainContent
   }
 }

@@ -22,7 +22,7 @@ export function routeData({ params }: RouteDataArgs) {
     (
       async (slug) => {
         try {
-          const post = getPost(slug)
+          const post = getPost(decodeURI(slug))
           return {
             info: post.info,
             content: post.content,

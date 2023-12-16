@@ -2,6 +2,7 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import { createSignal } from "solid-js"
+import { readInfoFromMatter } from "./post"
 
 const postStoragePath = path.join(process.cwd(), "posts")
 
@@ -16,11 +17,11 @@ function getPostsFromFiles(): postInfo[] {
   return fs
     .readdirSync(path.join(process.cwd(), "posts"))
     .map((slug) => {
-      var frontMatter = readFrontmatterFromSlug(slug)
+      const fileContent = fs.readFileSync(path.join(postStoragePath, slug))
+      const frontMatter = matter(fileContent)
+       
       return {
-        title: frontMatter.title,
-        date: frontMatter.date,
-        category: frontMatter.category,
+        ...readInfoFromMatter(frontMatter),
         slug: slug.slice(0, slug.lastIndexOf('.'))
       }
     })
@@ -33,12 +34,14 @@ function getPostsFromFiles(): postInfo[] {
 
 /**  
  * Get all posts
+ * @param {number?} offset
+ * @param {number?} limit
  * @returns {postInfo[]}
 */
-export function getPosts(): postInfo[] {
+export function getPosts(offset?: number, limit?: number): postInfo[] {
   if (postListCache() != void 0) {
     console.log("fetched post list from cache")
-    return postListCache() ?? []
+    return postListCache()?.slice(offset, (offset ?? 0) + (limit ?? -1)) ?? []
   }
 
   if (!watchedPostList) {
@@ -49,17 +52,7 @@ export function getPosts(): postInfo[] {
 
   console.log("fetched post list by fs reading")
   setPostListCache(getPostsFromFiles())
-  return postListCache() ?? []
-}
-
-/**  
- * Get posts from specific page
- * @param {number} page
- * @returns {postInfo[]}
-*/
-export function getPostsByPage(page: number): postInfo[] {
-  const posts = getPosts()
-  return getPostsByPageFromList(posts, page)
+  return postListCache()?.slice(offset, (offset ?? 0) + (limit ?? -1)) ?? []
 }
 
 /**
@@ -67,23 +60,8 @@ export function getPostsByPage(page: number): postInfo[] {
  * @param {string} category 
  * @returns {postInfo[]}
  */
-export function getPostsFromCategory(category: string): postInfo[] {
-  return getPosts().filter(e => e.category == category)
-}
-
-/**
- * Get posts from specific category and page
- * @param {string} category 
- * @param {number} page
- * @returns {postInfo[]}
- */
-export function getPostsFromCategoryByPage(category: string, page: number): postInfo[] {
-  const filteredPosts = getPostsFromCategory(category)
-
-  return getPostsByPageFromList(
-    filteredPosts,
-    page
-  )
+export function getPostsFromCategory(category: string, offset?: number, limit?: number): postInfo[] {
+  return getPosts(offset,limit).filter(e => e.category == category)
 }
 
 /**
@@ -104,32 +82,9 @@ export function getPostsPaginationCountFromCategory(category: string,): number {
   return Math.ceil(posts.length / 10)
 }
 
-
-function getPostsByPageFromList(
-  postList: postInfo[], page: number
-) {
-  const firstItemIndex = (page - 1) * 10
-  const nextPageFirstItemIndex = page * 10
-  return postList.slice(
-    firstItemIndex,
-    nextPageFirstItemIndex
-  )
-}
-
 function watchPostList() {
   fs.watch(postStoragePath, () => {
     console.log("updating post list cache")
     setPostListCache(getPostsFromFiles())
   })
-}
-
-function readFrontmatterFromSlug(slug: string): {
-  title: string, date: number, category: string
-} {
-  var fileContent = fs.readFileSync(path.join(postStoragePath, slug))
-  return {
-    title: matter(fileContent).data["title"],
-    date: parseInt(matter(fileContent).data["date"]),
-    category: matter(fileContent).data["category"]
-  }
 }

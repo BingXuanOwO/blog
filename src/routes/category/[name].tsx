@@ -4,12 +4,12 @@ import { createServerData$ } from "solid-start/server";
 import { HeadingTitle } from "~/components/HeadingTitle";
 import { PaginationButtons } from "~/components/PaginationButtons";
 import PostItem from "~/components/PostItem";
-import { getPostsFromCategory, getPostsFromCategoryByPage, getPostsPaginationCount, getPostsPaginationCountFromCategory } from "~/data/posts";
+import { getPostsFromCategory, getPostsPaginationCountFromCategory } from "~/data/posts";
 
 export function routeData({ params, location }: RouteDataArgs) {
   const posts = createServerData$<postInfo[], [name: string, page: number]>(
     ([name, page]) => {
-      const posts = getPostsFromCategoryByPage(name, page)
+      const posts = getPostsFromCategory(name, (page - 1) * 10, 10)
       console.log(page)
       return posts
     },
@@ -55,8 +55,7 @@ export default function Category() {
         {
           posts()
             ?.map(post =>
-              <PostItem title={post.title} slug={post.slug}
-                date={new Date(post.date ?? 0)} content="content" />
+              <PostItem postInfo={post} hideCategory/>
             )
         }
       </ul>

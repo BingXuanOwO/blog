@@ -29,9 +29,7 @@ export default function Archive() {
         {
           posts()
             ?.map((post) =>
-              <PostItem title={post.title} slug={post.slug}
-                date={new Date(post.date)} content="content"
-                category={post.category} />
+              <PostItem postInfo={post} />
             )
         }
       </div>
