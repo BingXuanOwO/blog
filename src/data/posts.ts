@@ -41,7 +41,7 @@ function getPostsFromFiles(): postInfo[] {
 export function getPosts(offset?: number, limit?: number): postInfo[] {
   if (postListCache() != void 0) {
     console.log("fetched post list from cache")
-    return postListCache()?.slice(offset, (offset ?? 0) + (limit ?? -1)) ?? []
+    return postListCache()?.slice(offset, limit == undefined ? undefined : (offset ?? 0) + limit ) ?? []
   }
 
   if (!watchedPostList) {
@@ -52,7 +52,7 @@ export function getPosts(offset?: number, limit?: number): postInfo[] {
 
   console.log("fetched post list by fs reading")
   setPostListCache(getPostsFromFiles())
-  return postListCache()?.slice(offset, (offset ?? 0) + (limit ?? -1)) ?? []
+  return postListCache()?.slice(offset, limit == undefined ? undefined : (offset ?? 0) + limit ) ?? []
 }
 
 /**
