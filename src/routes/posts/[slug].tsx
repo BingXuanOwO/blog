@@ -2,7 +2,7 @@ import hljs from "highlight.js";
 import "~/highLight.css"
 import { marked } from "marked";
 import { onMount } from "solid-js";
-import { ErrorBoundary, RouteDataArgs, useRouteData } from "solid-start";
+import { ErrorBoundary, Meta, RouteDataArgs, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import { getPost } from "~/data/post";
 import { parseDateToString } from "~/utils/date";
@@ -50,6 +50,7 @@ export default function Post() {
       found={post()?.found}
       internalError={post()?.internalError}
     >
+      <Meta name="description" content={post()?.info?.preview}></Meta>
       <main class="gap-6 flex flex-col">
         <HeadingTitle title={post()?.info?.title} />
         <div class="opacity-60 text-ellipsis overflow-hidden gap-4 flex">

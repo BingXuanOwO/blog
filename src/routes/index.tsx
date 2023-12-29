@@ -1,15 +1,11 @@
 import { createEffect, createSignal, onMount } from "solid-js";
 import {
-  refetchRouteData,
-  RouteDataArgs,
   Title,
   useRouteData,
-  useSearchParams,
 } from "solid-start";
 import server$, { createServerData$ } from "solid-start/server";
 import { Button } from "~/components/Button";
 import PostItem from "~/components/PostItem";
-import { getPost } from "~/data/post";
 import { getPosts, getPostsPaginationCount } from "~/data/posts";
 
 export function routeData() {
