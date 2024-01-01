@@ -2292,6 +2292,7 @@ __metadata:
     "@solidjs/router": ^0.8.3
     "@types/node": ^20.6.0
     autoprefixer: ^10.4.15
+    dayjs: ^1.11.10
     gray-matter: ^4.0.3
     highlight.js: ^11.8.0
     marked: ^9.0.0
@@ -2637,6 +2638,13 @@ __metadata:
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
   checksum: e1a52e6c25c1314d6beef5168da704ab29c5186b877c07d822bd0806717d9a265e8493a2e35ca7e68d0f5d472d43fac1cdce70fd79fd0853dff81f3028d857b5
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.11.10":
+  version: 1.11.10
+  resolution: "dayjs@npm:1.11.10"
+  checksum: a6b5a3813b8884f5cd557e2e6b7fa569f4c5d0c97aca9558e38534af4f2d60daafd3ff8c2000fed3435cfcec9e805bcebd99f90130c6d1c5ef524084ced588c4
   languageName: node
   linkType: hard
 

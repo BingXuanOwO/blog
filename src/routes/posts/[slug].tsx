@@ -8,6 +8,7 @@ import { getPost } from "~/data/post";
 import { parseDateToString } from "~/utils/date";
 import { HeadingTitle } from "~/components/HeadingTitle";
 import { ReturnByError } from "~/components/ReturnByError";
+import dayjs from "dayjs";
 
 export function routeData({ params }: RouteDataArgs) {
   return createServerData$<
@@ -54,7 +55,7 @@ export default function Post() {
       <main class="gap-6 flex flex-col">
         <HeadingTitle title={post()?.info?.title} />
         <div class="opacity-60 text-ellipsis overflow-hidden gap-4 flex">
-          <span>{parseDateToString(new Date(post()?.info?.date ?? 0))}</span>
+          <span>{dayjs(post()?.info?.date).format('YYYY-MM-DD HH:MM')}</span>
           <span>{post()?.info?.category}</span>
         </div>
         <ErrorBoundary>

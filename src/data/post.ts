@@ -39,7 +39,7 @@ export function readInfoFromMatter(matter: GrayMatterFile<Buffer | string>): pos
 
   return {
     title: matter.data["title"],
-    date: parseInt(matter.data["date"]),
+    date: matter.data["date"],
     category: matter.data["category"],
     preview: plainContent.length > 100 ? plainContent.slice(0,100) + '...' : plainContent
   }
