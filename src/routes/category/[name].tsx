@@ -8,10 +8,8 @@ import { getPostsFromCategory, getPostsPaginationCountFromCategory } from "~/dat
 
 export function routeData({ params, location }: RouteDataArgs) {
   const posts = createServerData$<postInfo[], [name: string, page: number]>(
-    ([name, page]) => {
-      const posts = getPostsFromCategory(name, (page - 1) * 10, 10)
-      console.log(page)
-      return posts
+    async ([name, page]) => {
+      return getPostsFromCategory(name, (page - 1) * 10, 10)
     },
     {
       key: () => [

@@ -30,3 +30,6 @@ Thumbs.db
 
 # yarn
 /.yarn
+
+# generated
+generated

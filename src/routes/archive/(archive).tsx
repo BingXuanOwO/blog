@@ -5,7 +5,7 @@ import { getPostsDates } from "~/data/archive";
 
 export function routeData({ location }: RouteDataArgs) {
   return createServerData$<{ year: number, availableMonths: number[] }[], number>(
-    () => getPostsDates()
+    async () => getPostsDates()
   );
 }
 

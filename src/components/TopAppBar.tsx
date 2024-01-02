@@ -7,8 +7,8 @@ export default function TopAppBar() {
   const [categories, setCategories] = createSignal<string[]>([])
 
   onMount(async () => {
-    const fetchedCategories = server$(() => {
-      return getCategories()
+    const fetchedCategories = server$(async () => {
+      return await getCategories()
     })
 
     console.log("fetched Categories")

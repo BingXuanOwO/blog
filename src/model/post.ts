@@ -1,6 +1,6 @@
 type postInfo = {
     title: string,
-    date: string,
+    date: number,
     category: string,
     preview: string,
     slug?: string,

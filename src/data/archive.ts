@@ -1,7 +1,7 @@
 import { getPosts } from "./posts"
 
-export function getPostsDates(): { year: number, availableMonths: number[] }[] {
-  const posts = getPosts()
+export async function getPostsDates(): Promise<{ year: number; availableMonths: number[]} []> {
+  const posts = await getPosts()
   const years = new Set(posts.map(post =>
     new Date(post.date).getFullYear()
   ))
@@ -24,8 +24,8 @@ export function getPostsDates(): { year: number, availableMonths: number[] }[] {
     })
 }
 
-export function getPostsByYearAndMonth(year: number, month: number): postInfo[] {
-  const posts = getPosts()
+export async function getPostsByYearAndMonth(year: number, month: number): Promise<postInfo[]> {
+  const posts = await getPosts()
   const filteredPost = posts.filter(
     post => {
       const date = new Date(post.date)

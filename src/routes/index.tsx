@@ -17,8 +17,7 @@ export function routeData() {
 }
 
 const fetchMorePosts = async (page: number) =>
-  await server$((page) => {
-    console.log(page);
+  await server$(async (page) => {
     return getPosts((page - 1) * 10, 10);
   })(page);
 

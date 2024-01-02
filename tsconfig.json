@@ -9,6 +9,7 @@
     "jsx": "preserve",
     "strict": true,
     "baseUrl": "./",
+    "resolveJsonModule": true,
     "paths": {
       "~/*": ["./src/*"]
     }
