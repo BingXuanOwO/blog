@@ -1,8 +1,4 @@
-import fs from "fs";
-import path from "path";
 import { Root } from "mdast-util-from-markdown/lib";
-
-const postStoragePath = path.join("./generated", "posts");
 
 /**
  * Get a specific post

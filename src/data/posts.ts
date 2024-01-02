@@ -1,11 +1,3 @@
-import fs from "fs";
-import path from "path";
-
-const postListFilePath = path.join(
-  "./generated",
-  "posts.json"
-);
-
 /**
  * Get all posts
  * @param {number?} offset

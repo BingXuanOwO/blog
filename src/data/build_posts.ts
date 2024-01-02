@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Root, Yaml } from "mdast";
 
-import path from "path";
+import path from "node:path";
 import yaml from "yaml";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { frontmatterFromMarkdown } from "mdast-util-frontmatter";
