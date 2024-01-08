@@ -21,23 +21,26 @@ export function convertPostListItem(root: Root): postInfo | undefined {
     const parsedFrontMatter = yaml.parse(frontMatterNode.value);
 
     // i'm still no idea how to get preview for every post
-    const preview =
-      toString({
-        type: "root",
-        children: root.children.filter(
-          (element) => element.type !== "image" && element.type !== "yaml"
-        ),
-      })
-        .split("\n")
-        .find((str) => str != "") ?? "";
+    let preview = "";
+
+    for (let index = 0; index < root.children.length; index++) {
+      const node = root.children[index];
+      if (node.type != "paragraph") continue;
+      preview = toString(node);
+
+      if(preview != "") {
+        preview += preview[preview.length - 1] === "." ? ".." : "...";
+        break;
+      }
+      console.log("empty")
+    }
+    console.log(preview);
 
     return {
       title: parsedFrontMatter.title,
       date: new Date(parsedFrontMatter.date).getTime(),
       category: parsedFrontMatter.category,
-      preview:
-        (preview[preview.length - 1] === "." ? preview.slice(0, -1) : preview) +
-        "...",
+      preview: preview
     };
   }
 
