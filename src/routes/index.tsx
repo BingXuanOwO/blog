@@ -1,77 +1,64 @@
-import { createEffect, createSignal, onMount } from "solid-js";
-import {
-  Title,
-  useRouteData,
-} from "solid-start";
-import server$, { createServerData$ } from "solid-start/server";
+import { createAsync } from "@solidjs/router";
+import { createEffect, createSignal, on, onMount } from "solid-js";
+
 import { Button } from "~/components/Button";
 import PostItem from "~/components/PostItem";
-import { getPosts, getPostsPaginationCount } from "~/data/posts";
+import { getPosts, getPageCount } from "~/data/posts";
 
-export function routeData() {
-  const firstPagePosts = createServerData$<postInfo[]>(() => getPosts(0, 10));
 
-  const pageCount = createServerData$<number>(() => getPostsPaginationCount());
-
-  return { firstPagePosts, pageCount };
-}
-
-const fetchMorePosts = async (page: number) =>
-  await server$(async (page) => {
-    return getPosts((page - 1) * 10, 10);
-  })(page);
 
 export default function Home() {
-  const { firstPagePosts, pageCount } = useRouteData<typeof routeData>();
+  const pageCount = createAsync(async () => await getPageCount());
 
-  const [isBottom, setIsBottom] = createSignal(false);
   const [page, setPage] = createSignal(1);
 
-  createEffect(() => {
-    if (pageCount != undefined && page() >= (pageCount() ?? 1)) {
-      setIsBottom(true);
-    } else {
-      setIsBottom(false);
-    }
-  });
-  
-  const [posts, setPosts] = createSignal(firstPagePosts());
+  const fetchedPosts = createAsync(async () => await getPosts(page()));
 
-  createEffect(()=>{
-    setPosts(firstPagePosts())
-  })
+  const [posts, setPosts] = createSignal<PostInfo[] | undefined>(
+    fetchedPosts()
+  );
+
+  const appendIntoPosts = (newPosts: PostInfo[]) => {
+    setPosts([...(posts() ?? []), ...newPosts]);
+  };
+
+  function nextPage() {
+    if (page() <= (pageCount() ?? 0)) {
+      setPage((page) => page + 1);
+    }
+  }
+
+  createEffect(
+    on(fetchedPosts, () => {
+      const fetched = fetchedPosts();
+      if (fetched === undefined || fetched.length <= 0) {
+        return;
+      }
+
+      if (page() == 1) {
+        setPosts(fetched);
+        return;
+      }
+
+      appendIntoPosts(fetched);
+    })
+  );
 
   return (
     <main>
-      <Title>冰轩's blog</Title>
+      <title>冰轩's blog</title>
       <div class="flex flex-col gap-12">
         {posts()?.map((post) => (
           <PostItem postInfo={post} />
         ))}
       </div>
-      {!isBottom() && (
-        <div class="pt-12 pb-4 w-full text-center">
-          <Button
-            primary
-            onClick={() => {
-              setPage((page) => page + 1);
-
-              fetchMorePosts(page()).then((fetched) => {
-                setPosts((posts) => [...(posts ?? []), ...fetched]);
-              });
-
-              if (
-                pageCount != undefined &&
-                page() >= (pageCount() ?? 1)
-              ) {
-                setIsBottom(true);
-              }
-            }}
-          >
+      <div class="pt-8 pb-4 w-full text-center">
+        {page() < (pageCount() ?? 0) && (
+          <Button primary onClick={nextPage}>
             加载更多
           </Button>
-        </div>
-      )}
+        )}
+      </div>
     </main>
   );
 }

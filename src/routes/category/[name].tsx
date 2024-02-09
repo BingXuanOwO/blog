@@ -1,48 +1,33 @@
+import { createAsync, useParams, useSearchParams } from "@solidjs/router";
 import { createEffect, createSignal } from "solid-js";
-import { RouteDataArgs, useParams, useRouteData, useSearchParams } from "solid-start";
-import { createServerData$ } from "solid-start/server";
 import { HeadingTitle } from "~/components/HeadingTitle";
 import { PaginationButtons } from "~/components/PaginationButtons";
 import PostItem from "~/components/PostItem";
-import { getPostsFromCategory, getPostsPaginationCountFromCategory } from "~/data/posts";
+import { getPageCount, getPosts } from "~/data/posts";
 
-export function routeData({ params, location }: RouteDataArgs) {
-  const posts = createServerData$<postInfo[], [name: string, page: number]>(
-    async ([name, page]) => {
-      return getPostsFromCategory(name, (page - 1) * 10, 10)
-    },
-    {
-      key: () => [
-        decodeURI(params.name),
-        parseInt(location.query.page ?? 1)
-      ]
-    }
-  );
-
-  const paginationCount = createServerData$<number, string>(
-    (name) => {
-      const posts = getPostsPaginationCountFromCategory(name)
-      return posts
-    },
-    { key: () => decodeURI(params.name), }
-  );
+const getCategoryInfo = async (name: string, page: number) => {
+  "use server";
+  const posts = await getPosts(page, decodeURI(name));
+  const paginationCount = await getPageCount(decodeURI(name));
 
   return { posts, paginationCount }
 }
 
 export default function Category() {
-  const { posts, paginationCount } = useRouteData<typeof routeData>();
-
   const params = useParams()
   const [searchParams] = useSearchParams();
 
   const [page, setPage] = createSignal(
-    parseInt(searchParams.page) > 1 ? parseInt(searchParams.page) : 1
+    parseInt(searchParams.page ?? "") > 1 ? parseInt(searchParams.page ?? "") : 1
   )
 
+  console.log(page())
+
   createEffect(() => {
-    setPage(parseInt(searchParams.page) > 1 ? parseInt(searchParams.page) : 1)
+    setPage(parseInt(searchParams.page ?? "") > 1 ? parseInt(searchParams.page ?? "") : 1)
   })
+  
+  const categoryInfo = createAsync(async()=>await getCategoryInfo(params.name,page()));
 
   return (
     <main class="gap-8 flex flex-col">
@@ -51,13 +36,13 @@ export default function Category() {
         secondaryTitle="中的文章" />
       <div class="flex flex-col gap-8">
         {
-          posts()
+          categoryInfo()?.posts
             ?.map(post =>
               <PostItem postInfo={post} hideCategory/>
             )
         }
       </div>
-      <PaginationButtons pageCount={paginationCount() ?? 0} />
+      <PaginationButtons pageCount={categoryInfo()?.paginationCount ?? 0} />
     </main>
   )
 }

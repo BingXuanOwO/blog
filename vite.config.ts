@@ -1,7 +1,16 @@
-import solid from "solid-start/vite";
-import { defineConfig } from "vite";
+import { defineConfig } from "@solidjs/start/config";
 import ViteGeneratePostsPlugin from "./src/utils/vite_generate_posts_plugin";
+import { env } from "process";
 
 export default defineConfig({
-  plugins: [solid(), ViteGeneratePostsPlugin()],
+  plugins: [ViteGeneratePostsPlugin()],
+  start: {
+    server: {
+      preset: env["PRESET"],
+      prerender: {
+        routes: ["/"],
+        
+      }
+    }
+  }
 });

@@ -1,21 +1,13 @@
+import { A, cache } from "@solidjs/router";
 import { createSignal, onMount } from "solid-js";
-import { A, useLocation, useRouteData } from "solid-start";
-import server$ from "solid-start/server";
-import { getCategories } from "~/data/categories";
+import { getCategories } from "~/data/posts";
 
 export default function TopAppBar() {
   const [categories, setCategories] = createSignal<string[]>([])
 
   onMount(async () => {
-    const fetchedCategories = server$(async () => {
-      return await getCategories()
-    })
-
-    console.log("fetched Categories")
-    console.log([...await fetchedCategories()])
-
     setCategories(
-      await fetchedCategories()
+      await cache(getCategories, "categories")()
     )
   })
 

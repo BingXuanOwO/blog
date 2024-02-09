@@ -1,9 +1,8 @@
+import { A } from "@solidjs/router";
 import dayjs from "dayjs";
-import { A } from "solid-start";
-import { parseDateToString } from "~/utils/date";
 
 export default function PostItem(props: {
-  postInfo: postInfo,
+  postInfo: PostInfo,
   hideCategory?: boolean,
   class?: string
 }) {
@@ -15,7 +14,7 @@ export default function PostItem(props: {
       <div class="text-xs opacity-60 text-ellipsis overflow-hidden gap-3 flex">
         <span>{
           props.postInfo.date != undefined && 
-          dayjs(props.postInfo.date).format("YYYY-MM-DD HH:MM")
+          dayjs(props.postInfo.date).format("YYYY-MM-DD HH:mm")
         }</span>
 
         {!props.hideCategory && props.postInfo.category && <span>{props.postInfo.category}</span>}

@@ -1,5 +1,5 @@
-import { A } from "solid-start";
-import { HttpStatusCode } from "solid-start/server";
+import { A } from "@solidjs/router";
+import { HttpStatusCode } from "@solidjs/start";
 import { Button } from "~/components/Button";
 import { HeadingTitle } from "~/components/HeadingTitle";
 

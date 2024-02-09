@@ -1,37 +1,37 @@
-import { RouteDataArgs, useParams, useRouteData } from "solid-start";
-import { createServerData$ } from "solid-start/server";
+import { createAsync, useParams } from "@solidjs/router";
 import { HeadingTitle } from "~/components/HeadingTitle";
 import PostItem from "~/components/PostItem";
-import { getPostsByYearAndMonth } from "~/data/archive";
+import { getPosts } from "~/data/posts";
 
-export function routeData({ params }: RouteDataArgs) {
-  const posts = createServerData$<postInfo[], [number, number]>(
-    ([year, month]) => {
-      const posts = getPostsByYearAndMonth(year, month)
-      return posts
-    },
-    {
-      key: () => [parseInt(params.year), parseInt(params.month)]
-    }
-  );
+async function getPostsByDate(year: number, month: number): Promise<PostInfo[]> {
+  "use server";
+  const posts = await getPosts();
+  const filteredPost = posts.filter((post) => {
+    const date = new Date(post.date);
+    return date.getMonth() === month - 1 && date.getFullYear() === year;
+  });
 
-  return { posts }
+  return filteredPost;
 }
 
 export default function Archive() {
-  const { posts } = useRouteData<typeof routeData>()
-  const params = useParams()
+  const params = useParams();
+  console.log(params.year);
+  console.log(params.month);
+  const posts = createAsync(
+    async () => await getPostsByDate(parseInt(params.year), parseInt(params.month))
+  );
 
   return (
     <main class="gap-8 flex flex-col">
-      <HeadingTitle title={`${params.year}年${params.month}月`} secondaryTitle="的文章"/>
+      <HeadingTitle
+        title={`${params.year}年${params.month}月`}
+        secondaryTitle="的文章"
+      />
       <div class="flex flex-col gap-8">
-        {
-          posts()
-            ?.map((post) =>
-              <PostItem postInfo={post} />
-            )
-        }
+        {posts()?.map((post) => (
+          <PostItem postInfo={post} />
+        ))}
       </div>
     </main>
   );

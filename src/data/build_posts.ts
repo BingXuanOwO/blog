@@ -11,8 +11,12 @@ import { gfmStrikethrough } from "micromark-extension-gfm-strikethrough";
 import { removePosition } from "unist-util-remove-position";
 
 import { toString } from "mdast-util-to-string";
+import dayjs from "dayjs";
+import { parse } from "path";
 
-export function convertPostListItem(root: Root): postInfo | undefined {
+export function convertPostListItem(root: Root): PostInfo | undefined {
+  "use server";
+
   const frontMatterNode = root.children.find(
     (element) => element.type === "yaml"
   ) as Yaml | undefined;
@@ -26,21 +30,28 @@ export function convertPostListItem(root: Root): postInfo | undefined {
     for (let index = 0; index < root.children.length; index++) {
       const node = root.children[index];
       if (node.type != "paragraph") continue;
-      preview = toString(node);
+      preview += toString(node);
 
-      if(preview != "") {
-        preview += preview[preview.length - 1] === "." ? ".." : "...";
+      if (preview == "") {
         break;
       }
-      console.log("empty")
+
+      if (
+        preview[preview.length - 1] === "." ||
+        preview[preview.length - 1] === "。"
+      ) {
+        preview = preview.slice(0, -1);
+      }
+
+      preview += "...";
+      break;
     }
-    console.log(preview);
 
     return {
       title: parsedFrontMatter.title,
-      date: new Date(parsedFrontMatter.date).getTime(),
+      date: dayjs(parsedFrontMatter.date).valueOf(),
       category: parsedFrontMatter.category,
-      preview: preview
+      preview: preview,
     };
   }
 
@@ -51,7 +62,7 @@ export default async function buildPosts(
   outputDir: string,
   postsStoragePath: string
 ) {
-  const postList: postInfo[] = [];
+  const postList: PostInfo[] = [];
 
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir);
@@ -59,6 +70,20 @@ export default async function buildPosts(
 
   if (!fs.existsSync(path.join(outputDir, "posts"))) {
     fs.mkdirSync(path.join(outputDir, "posts"));
+  }
+
+  if(!fs.existsSync(postsStoragePath)){
+    fs.writeFileSync(
+      path.join(outputDir, "posts.json"),
+      "[]"
+    );
+  
+    fs.writeFileSync(
+      path.join(outputDir, "categories.json"),
+      "[]"
+    );
+
+    return;
   }
 
   // parse files in dir
@@ -80,7 +105,7 @@ export default async function buildPosts(
       slug.slice(0, slug.lastIndexOf(".")) + ".json"
     );
 
-    const postInfo: postInfo | undefined = convertPostListItem(nodeTree);
+    const postInfo: PostInfo | undefined = convertPostListItem(nodeTree);
 
     if (postInfo !== void 0) {
       // write converted file to json
@@ -96,14 +121,22 @@ export default async function buildPosts(
     }
   });
 
-  // sort post list and write to file
+  // sort post list
   postList.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
+  // get all categories
+  const categories = [...new Set<string>(postList.map((e) => e.category))];
+
   fs.writeFileSync(
     path.join(outputDir, "posts.json"),
     JSON.stringify(postList)
+  );
+
+  fs.writeFileSync(
+    path.join(outputDir, "categories.json"),
+    JSON.stringify(categories)
   );
 
   return;

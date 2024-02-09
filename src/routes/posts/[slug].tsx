@@ -1,49 +1,37 @@
 import hljs from "highlight.js";
 import "~/highLight.css";
-import { JSX, onMount } from "solid-js";
-import { ErrorBoundary, Meta, RouteDataArgs, useRouteData } from "solid-start";
-import { createServerData$ } from "solid-start/server";
+import { ErrorBoundary, JSX, onMount } from "solid-js";
 import { getPost } from "~/data/post";
 import { HeadingTitle } from "~/components/HeadingTitle";
 import { ReturnByError } from "~/components/ReturnByError";
 import dayjs from "dayjs";
 import { Nodes, Root } from "mdast";
 import { Dynamic } from "solid-js/web";
+import { createAsync, useParams } from "@solidjs/router";
 
-export function routeData({ params }: RouteDataArgs) {
-  return createServerData$<
-    {
-      found: boolean;
-      internalError?: boolean;
-      info?: postInfo;
-      content?: Root;
-    },
-    string
-  >(
-    async (slug) => {
-      try {
-        const post = await getPost(decodeURI(slug));
-        return {
-          info: post.info,
-          content: post.content,
-          found: true,
-        };
-      } catch (err) {
-        if (err instanceof Error && err.message == "Not Found") {
-          return { found: false };
-        }
+const fetchPost =async (slug: string) => {
+  "use server";
+  try {
+    const post = await getPost(decodeURI(slug));
+    return {
+      info: post.info,
+      content: post.content,
+      found: true,
+    };
+  } catch (err) {
+    if (err instanceof Error && err.message == "Not Found") {
+      return { found: false };
+    }
 
-        console.log(err);
-        return { found: false, internalError: true };
-      }
-    },
-    { key: () => params.slug }
-  );
+    console.log(err);
+    return { found: false, internalError: true };
+  }
 }
 
 export default function Post() {
-  const post = useRouteData<typeof routeData>();
-  console.log(post()?.info);
+  const params = useParams()
+  const post = createAsync(async()=>await fetchPost(params.slug));
+  console.log(post()?.info?.date);
 
   let ref: HTMLElement;
 
@@ -57,23 +45,21 @@ export default function Post() {
   });
 
   return (
-    <ReturnByError found={post()?.found} internalError={post()?.internalError}>
-      <Meta name="description" content={post()?.info?.preview}></Meta>
+    <>
+      <meta name="description" content={post()?.info?.preview}></meta>
       <main class="gap-6 flex flex-col">
-        <ErrorBoundary>
           <article ref={(el) => (ref = el)} class="flex gap-3 flex-col">
             <HeadingTitle title={post()?.info?.title} />
             <div class="opacity-60 text-ellipsis overflow-hidden gap-4 flex">
               <span>
-                {dayjs(post()?.info?.date).format("YYYY-MM-DD HH:MM")}
+                {dayjs(post()?.info?.date).format("YYYY-MM-DD HH:mm")}
               </span>
               <span>{post()?.info?.category}</span>
             </div>
             {renderMarkdownParagraph(post()?.content)}
           </article>
-        </ErrorBoundary>
       </main>
-    </ReturnByError>
+      </>
   );
 }
 

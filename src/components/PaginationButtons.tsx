@@ -1,16 +1,16 @@
 import { createEffect, createSignal } from "solid-js";
-import { useSearchParams } from "solid-start";
 import { Button } from "./Button";
+import { useSearchParams } from "@solidjs/router";
 
 export function PaginationButtons(props: { pageCount: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [page, setPage] = createSignal(
-    parseInt(searchParams.page) > 1 ? parseInt(searchParams.page) : 1
+    parseInt(searchParams.page ?? "") > 1 ? parseInt(searchParams.page ?? "") : 1
   )
 
   createEffect(() => {
-    setPage(parseInt(searchParams.page) > 1 ? parseInt(searchParams.page) : 1)
+    setPage(parseInt(searchParams.page ?? "") > 1 ? parseInt(searchParams.page ?? "") : 1)
     window.scrollTo(0,0)
   })
 
