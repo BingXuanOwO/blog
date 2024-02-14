@@ -2,7 +2,7 @@ import { createEffect, createSignal } from "solid-js";
 import { Button } from "./Button";
 import { useSearchParams } from "@solidjs/router";
 
-export function PaginationButtons(props: { pageCount: number }) {
+export function Pager(props: { pageCount: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [page, setPage] = createSignal(

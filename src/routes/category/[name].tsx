@@ -1,7 +1,7 @@
 import { createAsync, useParams, useSearchParams } from "@solidjs/router";
 import { createEffect, createSignal } from "solid-js";
 import { HeadingTitle } from "~/components/HeadingTitle";
-import { PaginationButtons } from "~/components/PaginationButtons";
+import { Pager } from "~/components/Pager";
 import PostItem from "~/components/PostItem";
 import { getPageCount, getPosts } from "~/data/post";
 
@@ -42,7 +42,7 @@ export default function Category() {
             )
         }
       </div>
-      <PaginationButtons pageCount={categoryInfo()?.paginationCount ?? 0} />
+      <Pager pageCount={categoryInfo()?.paginationCount ?? 0} />
     </main>
   )
 }
