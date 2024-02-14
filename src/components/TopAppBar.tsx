@@ -1,6 +1,6 @@
 import { A, cache } from "@solidjs/router";
 import { createSignal, onMount } from "solid-js";
-import { getCategories } from "~/data/posts";
+import { getCategories } from "~/data/post";
 
 export default function TopAppBar() {
   const [categories, setCategories] = createSignal<string[]>([])

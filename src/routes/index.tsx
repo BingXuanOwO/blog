@@ -1,11 +1,9 @@
 import { createAsync } from "@solidjs/router";
-import { createEffect, createSignal, on, onMount } from "solid-js";
+import { createEffect, createSignal, on } from "solid-js";
 
 import { Button } from "~/components/Button";
 import PostItem from "~/components/PostItem";
-import { getPosts, getPageCount } from "~/data/posts";
-
-
+import { getPosts, getPageCount } from "~/data/post";
 
 export default function Home() {
   const pageCount = createAsync(async () => await getPageCount());

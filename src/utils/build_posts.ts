@@ -12,7 +12,6 @@ import { removePosition } from "unist-util-remove-position";
 
 import { toString } from "mdast-util-to-string";
 import dayjs from "dayjs";
-import { parse } from "path";
 
 export function convertPostListItem(root: Root): PostInfo | undefined {
   "use server";

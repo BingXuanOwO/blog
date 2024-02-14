@@ -1,36 +1,18 @@
 import hljs from "highlight.js";
 import "~/highLight.css";
-import { ErrorBoundary, JSX, onMount } from "solid-js";
+import { JSX, onMount } from "solid-js";
 import { getPost } from "~/data/post";
 import { HeadingTitle } from "~/components/HeadingTitle";
-import { ReturnByError } from "~/components/ReturnByError";
 import dayjs from "dayjs";
 import { Nodes, Root } from "mdast";
 import { Dynamic } from "solid-js/web";
 import { createAsync, useParams } from "@solidjs/router";
-
-const fetchPost =async (slug: string) => {
-  "use server";
-  try {
-    const post = await getPost(decodeURI(slug));
-    return {
-      info: post.info,
-      content: post.content,
-      found: true,
-    };
-  } catch (err) {
-    if (err instanceof Error && err.message == "Not Found") {
-      return { found: false };
-    }
-
-    console.log(err);
-    return { found: false, internalError: true };
-  }
-}
+import { NotFound } from "~/errorPages/404";
 
 export default function Post() {
-  const params = useParams()
-  const post = createAsync(async()=>await fetchPost(params.slug));
+  const params = useParams();
+  console.log("params" + params);
+  const post = createAsync(async () => await getPost(decodeURI(params.slug)));
   console.log(post()?.info?.date);
 
   let ref: HTMLElement;
@@ -44,22 +26,27 @@ export default function Post() {
     }
   });
 
+  if (
+    post() != undefined &&
+    (post()?.info == undefined || post()?.content == undefined)
+  ) {
+    return NotFound();
+  }
+
   return (
     <>
       <meta name="description" content={post()?.info?.preview}></meta>
       <main class="gap-6 flex flex-col">
-          <article ref={(el) => (ref = el)} class="flex gap-3 flex-col">
-            <HeadingTitle title={post()?.info?.title} />
-            <div class="opacity-60 text-ellipsis overflow-hidden gap-4 flex">
-              <span>
-                {dayjs(post()?.info?.date).format("YYYY-MM-DD HH:mm")}
-              </span>
-              <span>{post()?.info?.category}</span>
-            </div>
-            {renderMarkdownParagraph(post()?.content)}
-          </article>
+        <article ref={(el) => (ref = el)} class="flex gap-3 flex-col">
+          <HeadingTitle title={post()?.info?.title} />
+          <div class="opacity-60 text-ellipsis overflow-hidden gap-4 flex">
+            <span>{dayjs(post()?.info?.date).format("YYYY-MM-DD HH:mm")}</span>
+            <span>{post()?.info?.category}</span>
+          </div>
+          {renderMarkdownParagraph(post()?.content)}
+        </article>
       </main>
-      </>
+    </>
   );
 }
 

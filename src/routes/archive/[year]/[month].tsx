@@ -1,7 +1,7 @@
 import { createAsync, useParams } from "@solidjs/router";
 import { HeadingTitle } from "~/components/HeadingTitle";
 import PostItem from "~/components/PostItem";
-import { getPosts } from "~/data/posts";
+import { getPosts } from "~/data/post";
 
 async function getPostsByDate(year: number, month: number): Promise<PostInfo[]> {
   "use server";

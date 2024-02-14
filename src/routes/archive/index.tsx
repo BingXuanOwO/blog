@@ -1,6 +1,6 @@
 import { A, cache, createAsync } from "@solidjs/router";
 import { HeadingTitle } from "~/components/HeadingTitle";
-import { getPosts } from "~/data/posts";
+import { getPosts } from "~/data/post";
 
 const getPostsDates = cache(async () => {
   "use server";

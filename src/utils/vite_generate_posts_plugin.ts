@@ -1,5 +1,5 @@
 import { PluginOption } from "vite";
-import buildPosts from "../data/build_posts";
+import buildPosts from "./build_posts";
 
 export default function ViteGeneratePostsPlugin(options = {}): PluginOption {
   return {

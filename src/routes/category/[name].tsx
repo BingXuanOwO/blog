@@ -3,7 +3,7 @@ import { createEffect, createSignal } from "solid-js";
 import { HeadingTitle } from "~/components/HeadingTitle";
 import { PaginationButtons } from "~/components/PaginationButtons";
 import PostItem from "~/components/PostItem";
-import { getPageCount, getPosts } from "~/data/posts";
+import { getPageCount, getPosts } from "~/data/post";
 
 const getCategoryInfo = async (name: string, page: number) => {
   "use server";
